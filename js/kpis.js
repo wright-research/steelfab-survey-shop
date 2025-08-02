@@ -22,7 +22,7 @@ function getCurrentComparisonMode() {
 /**
  * Get color class for filtered average score based on delta from total average
  * @param {number} filteredAverage - The filtered average score
- * @param {number} totalAverage - The total average score (always 82.1)
+ * @param {number} totalAverage - The total average score 
  * @returns {string} CSS class name for color
  */
 function getAverageScoreColorClass(filteredAverage, totalAverage) {
@@ -33,6 +33,7 @@ function getAverageScoreColorClass(filteredAverage, totalAverage) {
     } else {
         return 'score-neutral'; // Exactly 82.1
     }
+    console.log(filteredAverage, totalAverage);
 }
 
 /**
@@ -278,7 +279,7 @@ function createKPIHTML(kpiData) {
                             <div class="kpi-label">Responses<br/>(${Math.round(filteredPercent)}% of total)</div>
                         </div>
                         <div class="kpi-card">
-                            <div class="kpi-value ${getAverageScoreColorClass(averageFilteredResponse, 82.1)}">${averageFilteredResponse}</div>
+                            <div class="kpi-value ${getAverageScoreColorClass(averageFilteredResponse, averageResponse)}">${averageFilteredResponse}</div>
                             <div class="kpi-label">Average Overall Score</div>
                         </div>
                     </div>
