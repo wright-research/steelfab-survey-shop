@@ -1,0 +1,1185 @@
+/* Base styles */
+body {
+    background-color: #FFFFFF;
+    color: #1c1c1c;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+/* Container styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Header logo styles */
+.header-logo {
+    position: absolute;
+    top: 40px;
+    right: 30px;
+    z-index: 100;
+}
+
+.header-logo a {
+    display: inline-block;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.main-logo {
+    height: 60px;
+    width: auto;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+    filter: grayscale(100%) brightness(0.4) contrast(1.2);
+}
+
+.main-logo:hover {
+    opacity: 1;
+    filter: grayscale(100%) brightness(0.5) contrast(1.2);
+}
+
+/* Heading styles */
+h1 {
+    color: #1c1c1c;
+    font-size: 2.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+h2 {
+    color: #1c1c1c;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+
+
+/* Survey Filters Button Custom Styling */
+#survey-filters-btn {
+    --sl-color-primary-600: #1c1c1c;
+    --sl-color-primary-700: #ABDBF0;
+    --sl-input-border-radius-medium: 20px;
+    position: fixed;
+    top: 52px;
+    left: 30px;
+    z-index: 1000;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    visibility: visible;
+    transform-origin: center;
+    will-change: transform, opacity;
+}
+
+#survey-filters-btn.hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(100%);
+}
+
+#survey-filters-btn::part(base) {
+    background-color: #1c1c1c;
+    border: 2px solid #1c1c1c;
+    border-radius: 20px;
+    color: #FFFFFF;
+    font-weight: 500;
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 140px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+#survey-filters-btn::part(base):hover {
+    background-color: #ABDBF0;
+    border-color: #ABDBF0;
+    color: #1c1c1c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#survey-filters-btn::part(base):active {
+    transform: translateY(0);
+}
+
+/* Desktop: Show text, hide icon */
+#survey-filters-btn .btn-text {
+    display: inline;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+#survey-filters-btn .btn-icon {
+    display: none;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+}
+
+/* === COMPACT MODE STYLES === */
+#survey-filters-btn.compact-mode::part(base) {
+    min-width: 44px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    padding: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+#survey-filters-btn.compact-mode .btn-text {
+    display: none;
+    opacity: 0;
+    transform: scale(0.8);
+}
+
+#survey-filters-btn.compact-mode .btn-icon {
+    display: inline;
+    opacity: 1;
+    transform: scale(1);
+    font-size: 1.5rem;
+    /* center the icon */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 13px;
+}
+
+#survey-filters-btn.compact-mode::part(base):hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* Button container */
+.button-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+/* Drawer content styles */
+.drawer-content {
+    padding: 0.5rem 1rem 1rem 1rem;
+    /* top, right, bottom, left */
+    background-color: #1c1c1c;
+    color: #FFFFFF;
+}
+
+/* Comparison Mode Section */
+.comparison-mode-container {
+    margin-bottom: 1.2rem;
+    padding-bottom: 0rem;
+}
+
+.comparison-mode-header h3 {
+    color: #FFFFFF;
+    font-size: 1.4rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 1.5rem 0;
+    text-align: center;
+}
+
+.comparison-mode-content {
+    display: flex;
+    justify-content: center;
+}
+
+.comparison-mode-content sl-radio-group {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.comparison-mode-content sl-radio-group::part(button-group) {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+/* Comparison Mode Explanation */
+.comparison-mode-explanation {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.comparison-mode-explanation-text {
+    color: #ABDBF0;
+    font-size: 1rem;
+    font-style: italic;
+    margin: 0;
+    line-height: 1.4;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Baseline Filters Container */
+.baseline-filters-container {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.baseline-filters-container.hidden {
+    display: none;
+}
+
+/* Mode Containers */
+.roles-mode-container,
+.location-mode-container {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.roles-mode-container.hidden,
+.location-mode-container.hidden {
+    display: none;
+}
+
+/* Comparison Select Containers */
+.comparison-select-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.comparison-select-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.comparison-select-header h3 {
+    color: #FFFFFF;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 1rem 0;
+}
+
+.comparison-select-description {
+    color: #ABDBF0;
+    font-size: 1rem;
+    font-style: italic;
+    margin: 0;
+    line-height: 1.4;
+}
+
+.comparison-select-content {
+    display: flex;
+    justify-content: center;
+}
+
+.comparison-select-content sl-select {
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Legacy placeholder styling (kept for potential future use) */
+.mode-placeholder {
+    text-align: center;
+    padding: 3rem 2rem;
+    color: #ABDBF0;
+    font-size: 1.1rem;
+    font-style: italic;
+}
+
+/* Filters container for 2-column layout */
+.filters-container {
+    display: flex;
+    gap: 6rem;
+    justify-content: space-between;
+    align-items: flex-start;
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 2rem;
+}
+
+.filter-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.filter-group-header {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #FFFFFF;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #ABDBF0;
+    width: 100%;
+    text-align: center;
+}
+
+.filter-group-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    width: 100%;
+}
+
+.filter-group-content sl-radio-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.filter-group-content sl-radio-group::part(button-group) {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.filter-group-content sl-select {
+    width: 100%;
+    max-width: 650px;
+}
+
+.filter-label {
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+.filter-label.active {
+    color: #FFFFFF;
+}
+
+.filter-label.inactive {
+    color: #666666;
+}
+
+.drawer-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem 1.5rem;
+        padding-bottom: 100px;
+        /* Add space for bottom logo */
+    }
+
+    .header-logo {
+        position: fixed;
+        top: auto;
+        bottom: 20px;
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+    }
+
+    .main-logo {
+        height: 45px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    /* Transform Survey Filters button to chevron icon on mobile */
+    #survey-filters-btn {
+        position: fixed;
+        top: 50px;
+        left: -10px;
+        width: 44px;
+        height: 44px;
+        z-index: 1000;
+    }
+
+    #survey-filters-btn::part(base) {
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        border-radius: 6px;
+        background-color: transparent;
+        border: none;
+    }
+
+    /* Hide text on mobile */
+    #survey-filters-btn .btn-text {
+        display: none;
+    }
+
+    /* Show chevron icon on mobile */
+    #survey-filters-btn .btn-icon {
+        display: block;
+        font-size: 28px;
+        line-height: 1;
+        color: #1c1c1c;
+    }
+
+    /* Mobile hover state - keep background transparent */
+    #survey-filters-btn::part(base):hover {
+        background-color: transparent;
+        border: none;
+    }
+
+    /* Mobile - no compact mode transitions, just static chevron */
+
+    .filters-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .filter-group-header {
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.25rem;
+    }
+
+    .filter-group-content {
+        gap: 1.5rem;
+    }
+
+    .drawer-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .drawer-actions sl-button {
+        width: 100%;
+    }
+
+    sl-drawer .drawer-instructions {
+        padding: 0.75rem 1rem 0 1rem;
+        margin-bottom: 1rem;
+    }
+
+    sl-drawer .drawer-instructions-text {
+        font-size: 0.9rem !important;
+        line-height: 1.3 !important;
+    }
+
+    /* Mobile responsive for comparison mode */
+    .comparison-mode-container {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+    }
+
+    .comparison-mode-header h3 {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+    }
+
+    .comparison-mode-content sl-radio-group::part(button-group) {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .comparison-mode-explanation {
+        margin-top: 1rem;
+        padding: 0 1rem;
+    }
+
+    .comparison-mode-explanation-text {
+        font-size: 0.9rem;
+        line-height: 1.3;
+    }
+
+    .comparison-select-container {
+        padding: 1.5rem 1rem;
+    }
+
+    .comparison-select-header h3 {
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .comparison-select-description {
+        font-size: 0.9rem;
+        line-height: 1.3;
+    }
+
+    .comparison-select-content sl-select {
+        max-width: 100%;
+    }
+
+    .mode-placeholder {
+        padding: 2rem 1rem;
+        font-size: 1rem;
+    }
+}
+
+/* Override Shoelace defaults to match our color scheme */
+sl-drawer::part(panel) {
+    background-color: #1c1c1c;
+    color: #FFFFFF;
+}
+
+/* Control drawer size for top placement */
+#survey-drawer {
+    --size: 750px;
+}
+
+sl-drawer::part(header) {
+    background-color: #1c1c1c;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+sl-drawer::part(title) {
+    color: #FFFFFF;
+}
+
+/* Drawer content styling */
+.drawer-content {
+    background-color: #1c1c1c;
+    color: #FFFFFF;
+}
+
+.drawer-content p {
+    color: #FFFFFF;
+    padding-top: 1rem;
+    /* Add padding to first text element */
+}
+
+/* Drawer instructions styling */
+sl-drawer .drawer-instructions {
+    text-align: center;
+    padding: 1rem 2rem 0 2rem;
+    margin-bottom: 2rem;
+    margin-top: 0rem;
+}
+
+sl-drawer .drawer-instructions-text {
+    color: #FFFFFF !important;
+    font-size: 1.1rem !important;
+    font-weight: 400 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.4 !important;
+}
+
+/* Filter section styling */
+.filter-section {
+    margin-bottom: 1.5rem;
+}
+
+.filter-section:last-of-type {
+    margin-bottom: 2rem;
+}
+
+.drawer-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    padding-top: 1rem;
+    border-top: 1px solid #444444;
+}
+
+/* Override Shoelace form controls in drawer */
+sl-drawer sl-radio-button {
+    --sl-color-primary-600: #ABDBF0;
+    --sl-color-primary-700: #ABDBF0;
+    --sl-color-primary-500: #ABDBF0;
+}
+
+sl-drawer sl-radio-button::part(button) {
+    color: #FFFFFF;
+    border-color: #444444;
+}
+
+sl-drawer sl-radio-button::part(button--checked) {
+    background-color: #ABDBF0;
+    border-color: #ABDBF0;
+    color: #1c1c1c;
+}
+
+sl-drawer sl-select::part(combobox) {
+    background-color: #2a2a2a;
+    border-color: #444444;
+    color: #FFFFFF;
+}
+
+sl-drawer sl-select::part(display-input) {
+    color: #FFFFFF;
+}
+
+sl-drawer sl-select::part(listbox) {
+    background-color: #2a2a2a;
+    border-color: #444444;
+}
+
+sl-drawer sl-option::part(base) {
+    background-color: #2a2a2a;
+    color: #FFFFFF;
+}
+
+sl-drawer sl-option::part(base):hover {
+    background-color: #3a3a3a;
+}
+
+sl-drawer sl-range::part(base) {
+    background-color: #2a2a2a;
+}
+
+sl-drawer sl-range::part(track) {
+    background-color: #444444;
+}
+
+sl-drawer sl-range::part(track-active) {
+    background-color: #FFFFFF;
+}
+
+sl-drawer sl-range::part(thumb) {
+    background-color: #ABDBF0;
+    border: 2px solid #ABDBF0;
+}
+
+/* KPI Styles */
+.kpi-container {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    align-items: stretch;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.kpi-2-column {
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.kpi-4-column {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    gap: 4rem;
+}
+
+.kpi-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.kpi-group-header {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1c1c1c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #1c1c1c;
+    width: 100%;
+    text-align: center;
+}
+
+.kpi-group-cards {
+    display: flex;
+    gap: 2rem;
+    width: 100%;
+    justify-content: center;
+}
+
+.kpi-card {
+    flex: 1;
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 2rem 1.5rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #1c1c1c;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.kpi-value {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1c1c1c;
+    margin-top: 0.5rem;
+    line-height: 1.2;
+}
+
+/* Conditional formatting for filtered average scores */
+.kpi-value.score-neutral {
+    color: #1c1c1c;
+    /* Default dark color - exactly 82.1 */
+}
+
+.kpi-value.score-green {
+    color: #2E7D32;
+    /* Green - above 82.1 */
+}
+
+.kpi-value.score-red {
+    color: #C62828;
+    /* Red - below 82.1 */
+}
+
+.kpi-label {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #1c1c1c;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 0.5rem;
+}
+
+.kpi-sublabel {
+    font-size: 0.9rem;
+    color: #1c1c1c;
+    margin-bottom: 0.25rem;
+    font-style: italic;
+}
+
+/* Radio Group Label Spacing */
+sl-radio-group::part(form-control-label) {
+    margin-bottom: 1rem;
+}
+
+/* multi select label spacing */
+sl-select::part(form-control-label) {
+    margin-bottom: 1rem;
+}
+
+/* Responsive KPI design */
+@media (max-width: 768px) {
+    .kpi-container {
+        flex-direction: column;
+        gap: 1.5rem;
+        margin: 1.5rem 0;
+    }
+
+    /* Keep 2-column layout horizontal on mobile */
+    .kpi-2-column {
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .kpi-group-cards {
+        flex-direction: row;
+        gap: 0.75rem;
+    }
+
+    .kpi-group-header {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.25rem;
+    }
+
+    .kpi-card {
+        padding: 1rem 0.75rem;
+        flex: 1;
+    }
+
+    .kpi-value {
+        font-size: 2rem;
+    }
+
+    .kpi-label {
+        font-size: 0.9rem;
+    }
+}
+
+/* Comparison Mode KPI Styles */
+.kpi-comparison-mode {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.kpi-comparison-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #1c1c1c;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-align: center;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #1c1c1c;
+    margin-bottom: 1rem;
+}
+
+.kpi-comparison-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.kpi-comparison-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 1.5rem 1rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #1c1c1c;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    min-width: 180px;
+    max-width: 220px;
+    flex: 1;
+}
+
+.kpi-comparison-header {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1c1c1c;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.kpi-comparison-empty {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+    padding: 2rem;
+    font-style: italic;
+}
+
+/* Responsive design for comparison mode */
+@media (max-width: 768px) {
+    .kpi-comparison-cards {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .kpi-comparison-card {
+        min-width: auto;
+        max-width: none;
+    }
+
+    .kpi-comparison-title {
+        font-size: 1.1rem;
+    }
+
+    .kpi-comparison-header {
+        font-size: 0.9rem;
+    }
+}
+
+/* Grouped Averages Table Empty State */
+.empty-state {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+    padding: 2rem;
+    background-color: #f8f9fa;
+}
+
+/* Grouped Averages Subtitle */
+.grouped-averages-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-style: italic;
+    font-weight: 400;
+}
+
+.grouped-averages-subtitle.hidden {
+    display: none;
+}
+
+/* Filter Status Styles */
+.filter-status {
+    max-width: 1200px;
+    margin: 1rem auto 2rem auto;
+    padding: 0 2rem;
+    text-align: center;
+    transition: opacity 0.3s ease;
+}
+
+.filter-status.hidden {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.filter-status-text {
+    color: #6c757d;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+    padding: 0.75rem 1rem;
+    background-color: #f8f9fa;
+    border-radius: 6px;
+    border: 1px solid #e9ecef;
+    display: inline-block;
+}
+
+@media (max-width: 768px) {
+    .filter-status {
+        padding: 0 1rem;
+    }
+
+    .filter-status-text {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+/* === GROUPED AVERAGES TABLE === */
+.grouped-averages-container {
+    max-width: 1400px;
+    margin: 2rem auto;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+    overflow: hidden;
+}
+
+.grouped-averages-header {
+    background-color: #f8f9fa;
+    padding: 1.5rem;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.grouped-averages-header h2 {
+    margin: 0;
+    color: #1c1c1c;
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.grouped-averages-table-wrapper {
+    overflow-x: auto;
+}
+
+.grouped-averages-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+.grouped-averages-table th {
+    background-color: #1c1c1c;
+    color: #FFFFFF;
+    padding: 0.75rem;
+    text-align: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #333;
+}
+
+.grouped-averages-table th.group-header {
+    min-width: 100px;
+}
+
+.grouped-averages-table th:first-child {
+    text-align: left;
+    min-width: 140px;
+}
+
+.grouped-averages-table td {
+    padding: 0.75rem;
+    text-align: center;
+    border-bottom: 1px solid #e0e0e0;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.grouped-averages-table td.dataset-name {
+    text-align: left;
+    font-weight: 600;
+    color: #1c1c1c;
+    background-color: #ffffff;
+}
+
+.grouped-averages-table td.group-average {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Overall Satisfaction column styling */
+.grouped-averages-table td.overall-satisfaction-column {
+    background-color: #f5f5f5;
+    /* create a left border in this column */
+    border-left: 1px solid #e0e0e0;
+}
+
+/* Conditional formatting for filtered values */
+.grouped-averages-table td.score-green {
+    color: #2E7D32;
+}
+
+.grouped-averages-table td.score-red {
+    color: #C62828;
+}
+
+.grouped-averages-table td.score-neutral {
+    color: #1c1c1c;
+}
+
+.grouped-averages-table tr.baseline-row {
+    background-color: #ffffff;
+}
+
+.grouped-averages-table tr.filtered-row {
+    background-color: #ffffff;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .grouped-averages-container {
+        margin: 1.5rem 1rem;
+    }
+
+    .grouped-averages-header {
+        padding: 1rem;
+    }
+
+    .grouped-averages-header h2 {
+        font-size: 1.25rem;
+    }
+
+    .grouped-averages-table {
+        font-size: 0.85rem;
+    }
+
+    .grouped-averages-table th,
+    .grouped-averages-table td {
+        padding: 0.6rem 0.4rem;
+    }
+
+    .grouped-averages-table th.group-header {
+        min-width: 80px;
+    }
+
+    .grouped-averages-table th:first-child {
+        min-width: 100px;
+    }
+
+    .grouped-averages-table td.group-average {
+        font-size: 1rem;
+    }
+}
+
+/* === CHARTS SECTION === */
+.charts-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.chart-item {
+    background: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+.chart-title {
+    margin: 0 0 1rem 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #1c1c1c;
+    text-align: center;
+}
+
+.chart-canvas {
+    width: 100% !important;
+    height: 360px !important;
+}
+
+/* Mobile responsive charts */
+@media (max-width: 768px) {
+    .charts-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        margin: 2rem 0;
+    }
+
+    .chart-item {
+        padding: 1rem;
+    }
+
+    .chart-title {
+        font-size: 0.95rem;
+        line-height: 1.3;
+    }
+
+    .chart-canvas {
+        height: 300px;
+    }
+}
+
+/* Footer styles */
+.dashboard-footer {
+    background-color: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+    margin-top: 4rem;
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.footer-text {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin: 0;
+    font-weight: 400;
+}
+
+.footer-text strong {
+    color: #1c1c1c;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .dashboard-footer {
+        margin-top: 2rem;
+        padding: 1.5rem 0;
+    }
+
+    .footer-content {
+        padding: 0 1rem;
+    }
+
+    .footer-text {
+        font-size: 0.85rem;
+    }
+}

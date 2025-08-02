@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SteelFab Survey Results</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+
+    <!-- Shoelace UI CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/themes/light.css" />
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Logo in top-right corner -->
+        <div class="header-logo">
+            <a href="https://www.steelfab-inc.com/" target="_blank" rel="noopener noreferrer">
+                <img src="Assets/steel-fab2.png" alt="SteelFab Logo" class="main-logo" />
+            </a>
+        </div>
+
+        <h1>SteelFab Shop Survey Results</h1>
+        <h2>July 2025</h2>
+
+        <!-- Filter Status Display -->
+        <div id="filter-status" class="filter-status hidden">
+            <p id="filter-status-text" class="filter-status-text"></p>
+        </div>
+
+        <!-- Survey Filters Button -->
+        <sl-button variant="primary" size="medium" id="survey-filters-btn">
+            <span class="btn-text">Survey Filters</span>
+            <span class="btn-icon">⌄</span>
+        </sl-button>
+
+        <!-- KPI Cards Container -->
+        <div id="kpi-container" class="kpi-container">
+            <!-- KPI cards will be dynamically populated here -->
+        </div>
+
+        <!-- Grouped Averages Table -->
+        <div class="grouped-averages-container">
+            <div class="grouped-averages-header">
+                <h2>Survey Component Averages</h2>
+                <p class="grouped-averages-subtitle" id="grouped-averages-subtitle">Conditional formatting of filtered
+                    results relative to company baseline.</p>
+            </div>
+            <div class="grouped-averages-table-wrapper">
+                <table class="grouped-averages-table" id="grouped-averages-table">
+                    <thead>
+                        <tr>
+                            <th class="group-header">Dataset</th>
+                            <th class="group-header">Trust</th>
+                            <th class="group-header">Health</th>
+                            <th class="group-header">Relationships</th>
+                            <th class="group-header">Impact</th>
+                            <th class="group-header">Value</th>
+                            <th class="group-header">Engagement</th>
+                            <th class="group-header">Overall<br>Satisfaction</th>
+                        </tr>
+                    </thead>
+                    <tbody id="grouped-averages-tbody">
+                        <!-- Baseline and filtered rows will be dynamically populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Charts Section -->
+        <div class="charts-container" id="charts-container">
+            <div class="chart-item">
+                <h3 class="chart-title">What do you enjoy most about working at SteelFab?</h3>
+                <canvas id="chart-q9" class="chart-canvas"></canvas>
+            </div>
+            <div class="chart-item">
+                <h3 class="chart-title">Question 10 Categories</h3>
+                <canvas id="chart-q10" class="chart-canvas"></canvas>
+            </div>
+            <div class="chart-item">
+                <h3 class="chart-title">Question 12 Categories</h3>
+                <canvas id="chart-q12" class="chart-canvas"></canvas>
+            </div>
+        </div>
+
+        <!-- Shoelace Drawer -->
+        <sl-drawer label="" id="survey-drawer" placement="top">
+            <div class="drawer-content">
+                <!-- Comparison Mode Selection -->
+                <div class="comparison-mode-container">
+                    <div class="comparison-mode-header">
+                        <h3>Comparison Mode</h3>
+                    </div>
+                    <div class="comparison-mode-content">
+                        <sl-radio-group name="comparison-mode" value="baseline" id="comparison-mode-radio-group">
+                            <sl-radio-button value="baseline">Baseline</sl-radio-button>
+                            <sl-radio-button value="roles">Roles</sl-radio-button>
+                            <sl-radio-button value="location">Location</sl-radio-button>
+                        </sl-radio-group>
+                    </div>
+                    <div class="comparison-mode-explanation">
+                        <p class="comparison-mode-explanation-text" id="comparison-mode-explanation-text">
+                            Compare company-wide SteelFab survey results to a smaller section of the company, filtered
+                            by roles or locations (or both).
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Baseline Mode Filters (existing functionality) -->
+                <div class="baseline-filters-container" id="baseline-filters-container">
+                    <div class="filters-container">
+                        <!-- Filter by Role Group -->
+                        <div class="filter-group">
+                            <div class="filter-group-header">Role</div>
+                            <div class="filter-group-content">
+                                <sl-radio-group name="role-filter" value="all" id="role-radio-group">
+                                    <sl-radio-button value="all">Show All</sl-radio-button>
+                                    <sl-radio-button value="compare">Filter</sl-radio-button>
+                                </sl-radio-group>
+                                <p class="filter-label inactive" id="role-label">Select Role</p>
+                                <sl-select placeholder="Choose roles to compare" disabled multiple clearable
+                                    max-options-visible="4" id="role-select">
+                                    <!-- Options will be populated dynamically -->
+                                </sl-select>
+                            </div>
+                        </div>
+
+                        <!-- Filter by Location Group -->
+                        <div class="filter-group">
+                            <div class="filter-group-header">Location</div>
+                            <div class="filter-group-content">
+                                <sl-radio-group name="location-filter" value="compare" id="location-radio-group">
+                                    <sl-radio-button value="all">Show All</sl-radio-button>
+                                    <sl-radio-button value="compare">Filter</sl-radio-button>
+                                </sl-radio-group>
+                                <p class="filter-label active" id="location-label">Select Location</p>
+                                <sl-select placeholder="Choose locations to compare" multiple clearable
+                                    max-options-visible="4" id="location-select" value="charlotte-nc">
+                                    <!-- Options will be populated dynamically -->
+                                </sl-select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Roles Mode Content -->
+                <div class="roles-mode-container hidden" id="roles-mode-container">
+                    <div class="comparison-select-content">
+                        <sl-select placeholder="Choose roles to compare" multiple clearable max-options-visible="5"
+                            id="roles-comparison-select">
+                            <sl-option value="crane-operator">Crane operator</sl-option>
+                            <sl-option value="detail-coordinator">Detail coordinator</sl-option>
+                            <sl-option value="fabrication-lead">Fabrication lead</sl-option>
+                            <sl-option value="fitter">Fitter</sl-option>
+                            <sl-option value="forklift-operator">Forklift operator</sl-option>
+                            <sl-option value="lead-person">Lead person</sl-option>
+                            <sl-option value="machine-operator">Machine operator</sl-option>
+                            <sl-option value="maintenance">Maintenance</sl-option>
+                            <sl-option value="other">Other</sl-option>
+                            <sl-option value="painter">Painter</sl-option>
+                            <sl-option value="part-runner">Part runner</sl-option>
+                            <sl-option value="programmer">Programmer</sl-option>
+                            <sl-option value="quality-control">Quality control</sl-option>
+                            <sl-option value="supervisor">Supervisor</sl-option>
+                            <sl-option value="welder">Welder</sl-option>
+                        </sl-select>
+                    </div>
+                </div>
+
+                <!-- Location Mode Content -->
+                <div class="location-mode-container hidden" id="location-mode-container">
+                    <div class="comparison-select-content">
+                        <sl-select placeholder="Choose locations to compare" multiple clearable max-options-visible="5"
+                            id="locations-comparison-select">
+                            <sl-option value="baltimore-md">Baltimore, MD</sl-option>
+                            <sl-option value="chandler-az">Chandler, AZ</sl-option>
+                            <sl-option value="charlotte-nc">Charlotte, NC</sl-option>
+                            <sl-option value="dublin-ga">Dublin, GA</sl-option>
+                            <sl-option value="durant-ok">Durant, OK</sl-option>
+                            <sl-option value="emporia-va">Emporia, VA</sl-option>
+                            <sl-option value="fayetteville-nc">Fayetteville, NC</sl-option>
+                            <sl-option value="florence-sc">Florence, SC</sl-option>
+                            <sl-option value="oakwood-tx">Oakwood, TX</sl-option>
+                            <sl-option value="roanoke-al">Roanoke, AL</sl-option>
+                            <sl-option value="rock-hill-sc">Rock Hill, SC</sl-option>
+                            <sl-option value="spokane-wa">Spokane, WA</sl-option>
+                            <sl-option value="tangent-or">Tangent, OR</sl-option>
+                            <sl-option value="york-pa">York, PA</sl-option>
+                            <sl-option value="york-sc">York, SC</sl-option>
+                        </sl-select>
+                    </div>
+                </div>
+            </div>
+
+
+    </div>
+    </sl-drawer>
+    </div>
+
+    <!-- Footer -->
+    <footer class="dashboard-footer">
+        <div class="footer-content">
+            <p class="footer-text">Powered by <strong><a href="https://11tenleadership.com/" target="_blank"
+                        rel="noopener noreferrer" style="color: #1c1c1c;"> 11 Ten Leadership</a></strong></p>
+        </div>
+    </footer>
+
+    <!-- Shoelace UI JavaScript -->
+    <script type="module"
+        src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/shoelace-autoloader.js"></script>
+
+    <!-- Custom JavaScript Modules -->
+    <script src="js/data.js"></script>
+    <script src="js/csv-loader.js"></script>
+    <script src="js/kpis.js"></script>
+    <script src="js/grouped-averages.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/drawer.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/scroll-effects.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
