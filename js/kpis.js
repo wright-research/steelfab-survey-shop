@@ -388,7 +388,7 @@ function generateFilterStatusText() {
     if (roleDisplayNames.length > 0 && locationDisplayNames.length > 0) {
         // Both roles and locations are filtered
         const locationWord = locationDisplayNames.length === 1 ? 'location' : 'locations';
-        statusText += `${formatListWithGrammar(roleDisplayNames)} in ${formatListWithGrammar(locationDisplayNames)} ${locationWord} only.`;
+        statusText += `${formatListWithGrammar(roleDisplayNames)}s in ${formatListWithGrammar(locationDisplayNames)} ${locationWord} only.`;
     } else if (roleDisplayNames.length > 0) {
         // Only roles are filtered - always use "roles" (plural) since there are multiple people in each role
         statusText += `${formatListWithGrammar(roleDisplayNames)} roles only.`;
