@@ -7,11 +7,12 @@
  * Role options data with clean IDs mapped to CSV values
  */
 const ROLE_OPTIONS = [
+    { value: 'crane-operator', text: 'Crane operator', csvValue: 'Crane operator' },
     { value: 'detail-coordinator', text: 'Detail coordinator', csvValue: 'Detail coordinator' },
     { value: 'fabrication-lead', text: 'Fabrication lead', csvValue: 'Fabrication lead' },
     { value: 'fitter', text: 'Fitter', csvValue: 'Fitter' },
     { value: 'forklift-operator', text: 'Forklift operator', csvValue: 'Forklift operator' },
-    { value: 'lead-person', text: 'Lead person', csvValue: 'Lead person' },
+    { value: 'lead-person', text: 'Lead person', csvValue: 'Leadperson' },
     { value: 'machine-operator', text: 'Machine operator', csvValue: 'Machine operator' },
     { value: 'maintenance', text: 'Maintenance', csvValue: 'Maintenance' },
     { value: 'other', text: 'Other', csvValue: 'Other' },
