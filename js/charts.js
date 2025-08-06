@@ -247,6 +247,24 @@ class Charts {
                     mode: 'index',
                     intersect: false
                 },
+                onHover: (event, elements) => {
+                    // Change cursor to pointer when hovering over bars
+                    const canvas = event.native.target;
+                    canvas.style.cursor = elements.length > 0 ? 'pointer' : 'default';
+                },
+                onClick: (event, elements) => {
+                    // Handle click on bars
+                    if (elements.length > 0) {
+                        const element = elements[0];
+                        const datasetIndex = element.datasetIndex;
+                        const dataIndex = element.index;
+                        const dataset = this.chartInstances[canvasId].data.datasets[datasetIndex];
+                        const category = this.chartInstances[canvasId].data.labels[dataIndex];
+                        
+                        // Call method to show responses dialog
+                        this.showResponsesDialog(canvasId, dataset, category, dataIndex);
+                    }
+                },
                 plugins: {
                     title: {
                         display: false
@@ -271,12 +289,14 @@ class Charts {
                                 return ''; // Remove the title (x-axis label)
                             },
                             label: function (context) {
-                                const percentage = context.parsed.y;
-                                const rawValue = context.dataset.rawValues[context.dataIndex];
-                                const totalResponses = context.dataset.totalResponses;
-                                return `${context.dataset.label}: ${percentage.toFixed(1)}% (${rawValue}/${totalResponses} responses)`;
+                                // Only show the label for the first dataset to avoid duplicates
+                                if (context.datasetIndex === 0) {
+                                    return 'Click for additional detail';
+                                }
+                                return null; // Hide labels for other datasets
                             }
-                        }
+                        },
+                        displayColors: false // Hide the colored boxes in tooltip
                     }
                 },
                 scales: {
@@ -482,6 +502,215 @@ class Charts {
         });
 
         this.createChart(canvasId, datasets, this.chartQuestions[column]);
+    }
+
+    // Show responses dialog for clicked bar
+    showResponsesDialog(canvasId, dataset, category, dataIndex) {
+        // Get the question column from canvas ID
+        const questionNumber = canvasId.replace('chart-q', '');
+        const column = `Q${questionNumber}_cat`;
+        
+        // Get the category name (flatten array if it's broken into multiple lines)
+        const categoryName = Array.isArray(category) ? category.join(' ') : category;
+        
+        // Get all datasets from the chart for tabbed interface
+        const chartInstance = this.chartInstances[canvasId];
+        const allDatasets = chartInstance ? chartInstance.data.datasets : [dataset];
+        
+        // Find the index of the clicked dataset
+        const clickedDatasetIndex = allDatasets.findIndex(ds => ds.label === dataset.label);
+        
+        // Create and show the dialog with all datasets
+        this.createTabbedResponsesDialog(categoryName, allDatasets, column, clickedDatasetIndex);
+    }
+
+    // Get raw responses for a specific category and dataset
+    getRawResponsesForCategory(column, categoryName, datasetLabel) {
+        const baselineData = window.CSVLoaderModule?.getCSVData();
+        if (!baselineData) return [];
+
+        let filteredData = baselineData;
+
+        // Apply filters based on dataset label
+        if (datasetLabel === 'Filtered Results') {
+            const filters = window.UtilsModule?.getCurrentFiltersForCsv();
+            if (filters) {
+                filteredData = window.CSVLoaderModule?.getFilteredData(filters);
+            }
+        } else if (datasetLabel !== 'All Responses') {
+            // Handle role or location comparisons
+            const comparisonMode = window.DrawerModule?.getCurrentComparisonMode();
+            if (comparisonMode === 'roles') {
+                const selectedRoles = window.KPIModule?.getSelectedComparisonItems('roles');
+                const roleData = selectedRoles?.find(role => role.displayName === datasetLabel);
+                if (roleData) {
+                    filteredData = baselineData.filter(row => row.Role === roleData.csvValue);
+                }
+            } else if (comparisonMode === 'location') {
+                const selectedLocations = window.KPIModule?.getSelectedComparisonItems('location');
+                const locationData = selectedLocations?.find(loc => loc.displayName === datasetLabel);
+                if (locationData) {
+                    filteredData = baselineData.filter(row => row.Location === locationData.csvValue);
+                }
+            }
+        }
+
+        // Get responses that match the category
+        const responses = [];
+        filteredData.forEach((row, index) => {
+            const response = row[column];
+            if (response && response.trim() === categoryName) {
+                // Get the original open-ended response
+                const originalColumn = column.replace('_cat', '');
+                const originalResponse = row[originalColumn];
+                if (originalResponse && originalResponse.trim()) {
+                    responses.push({
+                        text: originalResponse.trim(),
+                        index: index + 1
+                    });
+                }
+            }
+        });
+
+        return responses;
+    }
+
+    // Create and show the tabbed responses dialog
+    createTabbedResponsesDialog(categoryName, datasets, column, activeTabIndex = 0) {
+        // Remove existing dialog if present
+        const existingDialog = document.getElementById('responses-dialog');
+        if (existingDialog) {
+            existingDialog.remove();
+        }
+
+        // Prepare tab data with response counts
+        const tabData = datasets.map(dataset => {
+            const responses = this.getRawResponsesForCategory(column, categoryName, dataset.label);
+            return {
+                label: dataset.label,
+                responses: responses,
+                count: responses.length,
+                backgroundColor: dataset.backgroundColor
+            };
+        });
+
+        // Determine if we need tabs (more than one dataset)
+        const showTabs = datasets.length > 1;
+        const activeTab = tabData[activeTabIndex] || tabData[0];
+
+        // Create dialog HTML
+        const dialogHTML = `
+            <sl-dialog id="responses-dialog" label="Response Details: ${categoryName}" class="response-dialog" style="--width: 700px;">
+                <div class="response-content">
+                    ${!showTabs ? `
+                        <div class="response-header">
+                            <sl-badge variant="neutral">${activeTab.label}</sl-badge>
+                        </div>
+                    ` : ''}
+                    
+                    ${showTabs ? `
+                        <sl-tab-group id="response-tabs" placement="top">
+                            ${tabData.map((tab, index) => `
+                                <sl-tab slot="nav" panel="panel-${index}" ${index === activeTabIndex ? 'active' : ''}>
+                                    <div class="tab-content">
+                                        <span class="tab-label">${tab.label}</span>
+                                        <sl-badge variant="neutral" size="small">${tab.count}</sl-badge>
+                                    </div>
+                                </sl-tab>
+                            `).join('')}
+                            
+                            ${tabData.map((tab, index) => `
+                                <sl-tab-panel name="panel-${index}" ${index === activeTabIndex ? 'active' : ''}>
+                                    <div class="responses-list" id="responses-list-${index}">
+                                        ${this.generateResponsesList(tab.responses)}
+                                    </div>
+                                </sl-tab-panel>
+                            `).join('')}
+                        </sl-tab-group>
+                    ` : `
+                        <div class="responses-list">
+                            ${this.generateResponsesList(activeTab.responses)}
+                        </div>
+                    `}
+                </div>
+                
+                <sl-button slot="footer" variant="primary" id="close-dialog-btn">
+                    Close
+                </sl-button>
+            </sl-dialog>
+        `;
+
+        // Add dialog to page
+        document.body.insertAdjacentHTML('beforeend', dialogHTML);
+
+        // Show the dialog and set up event listeners
+        this.initializeDialog(tabData, showTabs);
+    }
+
+    // Generate responses list HTML
+    generateResponsesList(responses) {
+        if (responses.length === 0) {
+            return '<p class="no-responses">No responses found for this category.</p>';
+        }
+        
+        return responses.map(response => `
+            <sl-card class="response-item">
+                <div class="response-text">${response.text}</div>
+            </sl-card>
+        `).join('');
+    }
+
+    // Initialize dialog and set up event listeners
+    initializeDialog(tabData, showTabs) {
+        const dialog = document.getElementById('responses-dialog');
+        if (!dialog) {
+            console.error('Dialog element not found');
+            return;
+        }
+
+        // Use requestAnimationFrame to ensure DOM is updated
+        requestAnimationFrame(() => {
+            // Additional small delay to ensure Shoelace components are ready
+            setTimeout(() => {
+                if (dialog.show && typeof dialog.show === 'function') {
+                    dialog.show();
+                    
+                    // Set up close button
+                    this.setupCloseButton(dialog);
+                    
+                    // Set up tab switching if tabs are present
+                    if (showTabs) {
+                        this.setupTabSwitching(tabData);
+                    }
+                } else {
+                    console.error('Dialog component not properly initialized');
+                }
+            }, 50); // Small delay to ensure components are ready
+        });
+    }
+
+    // Set up close button functionality
+    setupCloseButton(dialog) {
+        const closeBtn = document.getElementById('close-dialog-btn');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', () => {
+                if (dialog.hide && typeof dialog.hide === 'function') {
+                    dialog.hide();
+                }
+            });
+        }
+    }
+
+    // Set up tab switching functionality
+    setupTabSwitching(tabData) {
+        const tabGroup = document.getElementById('response-tabs');
+        if (!tabGroup) return;
+
+        // Listen for tab changes (no longer need to update header badge)
+        tabGroup.addEventListener('sl-tab-show', (event) => {
+            // Tab switching is now handled entirely by the Shoelace component
+            // Each tab panel contains its own pre-loaded content
+        });
     }
 }
 

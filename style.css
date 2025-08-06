@@ -8,6 +8,81 @@ body {
     min-height: 100vh;
 }
 
+/* Response Dialog Styles */
+.response-dialog {
+    --sl-panel-background-color: #ffffff;
+}
+
+.response-content {
+    padding: 1rem 0;
+}
+
+.response-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.tab-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tab-label {
+    font-weight: 500;
+}
+
+.responses-list {
+    max-height: 400px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.response-item {
+    --sl-card-padding: 1rem;
+    --sl-card-border-color: #e0e0e0;
+    --sl-card-border-width: 1px;
+    --sl-card-border-radius: 8px;
+}
+
+.response-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: #2c2c2c;
+}
+
+.no-responses {
+    text-align: center;
+    color: #666;
+    font-style: italic;
+    padding: 2rem;
+    margin: 0;
+}
+
+/* Tab group customization */
+#response-tabs {
+    --sl-color-primary-600: #4A90E2;
+    margin-top: 0.5rem;
+}
+
+#response-tabs sl-tab {
+    --sl-color-neutral-600: #666;
+    font-weight: 500;
+}
+
+#response-tabs sl-tab[active] {
+    --sl-color-primary-600: #4A90E2;
+}
+
+#response-tabs sl-tab-panel {
+    padding-top: 1rem;
+}
+
 /* Container styles */
 .container {
     max-width: 1200px;
