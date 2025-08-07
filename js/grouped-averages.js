@@ -11,7 +11,7 @@ const QUESTION_GROUPS = {
     'Impact': ['Q6_num'],
     'Value': ['Q7_num'],
     'Engagement': ['Q8_num'],
-    'Overall Satisfaction': ['Q11_num']
+    'Overall Job Satisfaction': ['Q11_num']
 };
 
 // Global variables
@@ -95,7 +95,7 @@ function createTableRow(datasetName, averages, isFiltered = false, coloringData 
         cell.className = 'group-average';
 
         // Add medium-gray background to Overall Satisfaction column
-        if (groupName === 'Overall Satisfaction') {
+        if (groupName === 'Overall Job Satisfaction') {
             cell.classList.add('overall-satisfaction-column');
         }
 
